@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Workout Log</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #e0f7fa; /* Light teal background */
+            margin: 0;
+            padding: 20px;
+        }
+        h1 {
+            text-align: center;
+            color: #00796b; /* Darker teal color */
+        }
+        form {
+            max-width: 600px;
+            margin: auto;
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+        }
+        input, select, textarea {
+            width: 100%;
+            padding: 12px;
+            margin: 10px 0;
+            border: 1px solid #00796b;
+            border-radius: 5px;
+            transition: border-color 0.3s;
+        }
+        input:focus, textarea:focus {
+            border-color: #004d40; /* Darker shade on focus */
+            outline: none;
+        }
+        button {
+            background-color: #00796b;
+            color: white;
+            border: none;
+            padding: 12px;
+            border-radius: 5px;
+            cursor: pointer;
+            width: 100%;
+            transition: background-color 0.3s;
+        }
+        button:hover {
+            background-color: #004d40; /* Darker teal on hover */
+        }
+        table {
+            width: 100%;
+            margin-top: 20px;
+            border-collapse: collapse;
+            border-radius: 10px;
+            overflow: hidden; /* Rounded corners for the table */
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+        }
+        th, td {
+            border: 1px solid #00796b;
+            padding: 12px;
+            text-align: left;
+        }
+        th {
+            color: #00796b; /* Darker teal color for text */
+            background-color: transparent; /* Removed background color */
+        }
+        tr:nth-child(even) {
+            background-color: #f0f4f4; /* Light gray for alternating rows */
+        }
+        .delete-button {
+            background-color: #d9534f; /* Bootstrap danger color */
+            border: none;
+            color: white;
+            padding: 5px 10px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .delete-button:hover {
+            background-color: #c9302c; /* Darker red on hover */
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Workout Log</h1>
+    <form id="workout-form">
+        <input type="date" id="date" required>
+        <input type="text" id="exercise" placeholder="Exercise" required>
+        <input type="number" id="sets" placeholder="Sets" min="1" required>
+        <input type="number" id="reps" placeholder="Repetitions" min="1" required>
+        <textarea id="notes" placeholder="Notes"></textarea>
+        <button type="submit">Add Workout</button>
+    </form>
+
+    <table id="workout-table">
+        <thead>
+            <tr>
+                <th>Date</th>
+                <th>Exercise</th>
+                <th>Sets</th>
+                <th>Repetitions</th>
+                <th>Notes</th>
+                <th>Action</th> <!-- Added Action column -->
+            </tr>
+        </thead>
+        <tbody>
+            <!-- Workout entries will go here -->
+        </tbody>
+    </table>
+
+    <script>
+        const form = document.getElementById('workout-form');
+        const tableBody = document.getElementById('workout-table').getElementsByTagName('tbody')[0];
+
+        form.addEventListener('submit', function(e) {
+            e.preventDefault();
+
+            const date = document.getElementById('date').value;
+            const exercise = document.getElementById('exercise').value;
+            const sets = document.getElementById('sets').value;
+            const reps = document.getElementById('reps').value;
+            const notes = document.getElementById('notes').value;
+
+            const newRow = tableBody.insertRow();
+            newRow.innerHTML = `
+                <td>${date}</td>
+                <td>${exercise}</td>
+                <td>${sets}</td>
+                <td>${reps}</td>
+                <td>${notes}</td>
+                <td><button class="delete-button">Delete</button></td> <!-- Delete button -->
+            `;
+
+            // Add event listener to the delete button
+            newRow.querySelector('.delete-button').addEventListener('click', function() {
+                tableBody.deleteRow(newRow.rowIndex - 1); // Remove the row
+            });
+
+            form.reset();
+        });
+    </script>
+
+</body>
+</html>
